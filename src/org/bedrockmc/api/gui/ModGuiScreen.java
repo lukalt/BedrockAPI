@@ -17,7 +17,7 @@ public interface ModGuiScreen {
 	
 	public void closeGui();
 	
-	public Button createButton(String label);
+	public Button createButton(String label, int x, int y);
 	
 	public Button createButton(String label, int x, int y, int width, int height, boolean enabled);
 	
