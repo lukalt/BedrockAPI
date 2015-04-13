@@ -1,16 +1,17 @@
 package org.bedrockmc.api.gui;
 
-public interface Label {
-
-	public void setX(int x);
+public interface Label extends Element {
 	
-	public void setY(int y);
-	
-	public int getX();
-	
-	public int getY();
-	
+	/**
+	 * Get the text
+	 * @return
+	 */
 	public String getText();
 	
+	/**
+	 * Set the text of the label
+	 * @param text
+	 */
 	public void setText(String text);
+	
 }

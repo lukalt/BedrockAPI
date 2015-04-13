@@ -1,0 +1,9 @@
+org.bedrockmc.api
+org.bedrockmc.api.entity
+org.bedrockmc.api.event
+org.bedrockmc.api.event.chat
+org.bedrockmc.api.gui
+org.bedrockmc.api.mod
+org.bedrockmc.api.mod.java
+org.bedrockmc.api.overlay
+org.bedrockmc.api.world
