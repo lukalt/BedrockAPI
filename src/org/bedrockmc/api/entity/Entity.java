@@ -15,4 +15,6 @@ public interface Entity {
 	public void setFireTicks(int fire);
 	
 	public void remove();
+	
+	public EntityType getType();
 }

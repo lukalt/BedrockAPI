@@ -4,7 +4,9 @@ import java.awt.image.BufferedImage;
 
 import org.bedrockmc.api.entity.Player;
 import org.bedrockmc.api.event.EventManager;
-import org.bedrockmc.api.gui.ModGui;
+import org.bedrockmc.api.gui.GuiListener;
+import org.bedrockmc.api.gui.GuiScreenType;
+import org.bedrockmc.api.gui.ModGuiScreen;
 import org.bedrockmc.api.mod.ModIcon;
 import org.bedrockmc.api.overlay.RenderManager;
 import org.bedrockmc.api.world.World;
@@ -79,7 +81,22 @@ public interface Client {
 	 * Open a gui screen
 	 * @param gui
 	 */	
-	public void openGuiScreen(ModGui gui);
+	public void openGuiScreen(ModGuiScreen gui);
+	
+	/**
+	 * Create a new gui screen
+	 * @param listener
+	 * @param type
+	 * @return gui screen
+	 */
+	public ModGuiScreen createGuiScreen(GuiListener listener, GuiScreenType type);
+	
+	/**
+	 * Create a new gui screen
+	 * @param listener
+	 * @return gui screen
+	 */
+	public ModGuiScreen createGuiScreen(GuiListener listener);
 	
 	/**
 	 * Get current system time
