@@ -7,6 +7,7 @@ import org.bedrockmc.api.event.EventManager;
 import org.bedrockmc.api.gui.GuiListener;
 import org.bedrockmc.api.gui.GuiScreenType;
 import org.bedrockmc.api.gui.ModGuiScreen;
+import org.bedrockmc.api.mod.Mod;
 import org.bedrockmc.api.mod.ModIcon;
 import org.bedrockmc.api.overlay.RenderManager;
 import org.bedrockmc.api.world.World;
@@ -123,5 +124,9 @@ public interface Client {
 	public int getBedrockVersionCode();
 	
 	public String getBedrockVersion();
+	
+	public Texture bindTexture(BufferedImage image);
+	
+	public Texture bindTexture(Mod mod, String name);
 
 }
