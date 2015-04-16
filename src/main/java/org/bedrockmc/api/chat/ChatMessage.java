@@ -21,6 +21,7 @@ public class ChatMessage {
 	private boolean underlined = false;
 	private boolean strikethrough = false;
 	private boolean obfuscated = false;
+	
 	private List<ChatMessage> extra = new ArrayList<ChatMessage>();
 
 	public ChatMessage(String text) {
