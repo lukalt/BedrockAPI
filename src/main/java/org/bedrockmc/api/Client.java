@@ -2,6 +2,7 @@ package org.bedrockmc.api;
 
 import java.awt.image.BufferedImage;
 
+import org.bedrockmc.api.chat.ChatMessage;
 import org.bedrockmc.api.entity.Player;
 import org.bedrockmc.api.event.EventManager;
 import org.bedrockmc.api.gui.GuiListener;
@@ -111,22 +112,53 @@ public interface Client {
 	public boolean isUnicode();
 	
 	/**
+	 * Get the render manager instance.
 	 * @returm render manager
 	 */
 	public RenderManager getRenderManager();
 	
 	public ModIcon createModIcon(BufferedImage image);
 	
+	/**
+	 * Get the current Minecraft version code
+	 */
 	public int getMinecraftVersionCode();
 	
+	/**
+	 * Get the current minecraft version
+	 * @return
+	 */
 	public String getMinecraftVersion();
 	
+	/**
+	 * Get the current bedrock version
+	 */
 	public int getBedrockVersionCode();
 	
+	/**
+	 * Get the current bedrock version in string format
+	 */
 	public String getBedrockVersion();
 	
+	/**
+	 * Binds a buffered image as a texture
+	 * @param image
+	 * @return
+	 */
 	public Texture bindTexture(BufferedImage image);
 	
+	/**
+	 * Load an image from the mod file and bind it.
+	 * @param mod
+	 * @param name
+	 * @return
+	 */
 	public Texture bindTexture(Mod mod, String name);
+	
+	/**
+	 * Send a chat message to the server
+	 * @param message
+	 */
+	public void sendChatMessage(ChatMessage message);
 
 }
