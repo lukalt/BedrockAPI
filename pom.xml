@@ -2,8 +2,13 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>BedrockAPI</groupId>
   <artifactId>BedrockAPI</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>1.8-SNAPSHOT</version>
   <name>BedrockAPI</name>
+  <scm>
+        <connection>scm:git:git@github.com:lukas81298/BedrockAPI.git</connection>
+        <developerConnection>scm:git:git@github.com:lukas81298/BedrockAPI.git</developerConnection>
+        <url>git@github.com:lukas81298/BedrockAPI.git</url>
+    </scm>
   <build>
     <sourceDirectory>src</sourceDirectory>
     <plugins>
@@ -15,6 +20,30 @@
           <target>1.6</target>
         </configuration>
       </plugin>
+	  <plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-source-plugin</artifactId>
+  <executions>
+    <execution>
+      <id>attach-sources</id>
+      <goals>
+        <goal>jar</goal>
+      </goals>
+    </execution>
+  </executions>
+</plugin>
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-javadoc-plugin</artifactId>
+  <executions>
+    <execution>
+      <id>attach-javadocs</id>
+      <goals>
+        <goal>jar</goal>
+      </goals>
+    </execution>
+  </executions>
+</plugin>
     </plugins>
   </build>
   <url>http://bedrockmc.org</url>
