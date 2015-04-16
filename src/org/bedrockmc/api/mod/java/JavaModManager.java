@@ -111,7 +111,9 @@ public class JavaModManager implements ModManager {
 	public void disableMod(Mod mod) {
 		mod.onDisable();
 		if (mod instanceof JavaMod) {
-			((JavaMod) mod).setEnabled(false);
+			JavaMod javaMod = (JavaMod) mod;
+			javaMod.setEnabled(false);
+			javaMod.getOverlays().clear();
 		}
 	}
 

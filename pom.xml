@@ -22,4 +22,7 @@
   	<url>http://github.com/BedrockMC/BedrockAPI/issues</url>
   	<system>GitHub</system>
   </issueManagement>
+  <properties>
+  	<build.sourceEncoding>UTF-8</build.sourceEncoding>
+  </properties>
 </project>
