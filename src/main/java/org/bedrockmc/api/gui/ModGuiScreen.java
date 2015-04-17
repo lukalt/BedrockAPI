@@ -47,7 +47,7 @@ public interface ModGuiScreen {
 	 * @param y
 	 * @return button
 	 */
-	public Button createButton(String label, int x, int y);
+	public Button createButton(int id,String label, int x, int y);
 	
 	/**
 	 * Create a new button
@@ -59,7 +59,17 @@ public interface ModGuiScreen {
 	 * @param enabled
 	 * @return
 	 */
-	public Button createButton(String label, int x, int y, int width, int height, boolean enabled);
+	public Button createButton(int id,String label, int x, int y, int width, int height, boolean enabled);
+	
+	/**
+	 * Create a new text field
+	 * @param x
+	 * @param y
+	 * @param width
+	 * @param height
+	 * @return
+	 */
+	public TextField createTextField(int x, int y, int width, int height);
 	
 	/**
 	 * Add a new label to the screen

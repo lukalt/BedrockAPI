@@ -10,19 +10,24 @@ import java.util.TreeMap;
 
 import org.bedrockmc.api.mod.Mod;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 public class EventManager {
 
-	private Map<Class<? extends Event>,
-	TreeMap<EventPriority, Set<RegisteredEvent>>> registeredEvents = new HashMap<Class<? extends Event>, TreeMap<EventPriority, Set<RegisteredEvent>>>();
+	private Map<String,TreeMap<EventPriority, Set<RegisteredEvent>>> registeredEvents = new HashMap<String, TreeMap<EventPriority, Set<RegisteredEvent>>>();
 
+	/**
+	 * Register a new listener. All methods where the @EventHandler annotation is present will be registered.
+	 * @param mod
+	 * @param listener
+	 */
 	@SuppressWarnings("unchecked")
 	public void registerEvents(Mod mod, Listener listener) {
 		
 		Class<? extends Listener> clazz = listener.getClass();
 
 		for (Method method : clazz.getDeclaredMethods()) {
-			System.out.println(method.getName());
-			System.out.println(method.getAnnotations().length);
 			try {
 				Annotation an = method.getAnnotation(EventHandler.class);
 				if(an == null) {
@@ -31,7 +36,6 @@ public class EventManager {
 			}catch(Exception ex) {
 				continue;
 			}
-			
 			if (method.getParameterTypes().length != 1) {
 				continue;
 			}
@@ -43,11 +47,11 @@ public class EventManager {
 			RegisteredEvent registeredEvent = new RegisteredEvent(eventClass,
 					priority, method, listener);
 			TreeMap<EventPriority, Set<RegisteredEvent>> map = null;
-			if (registeredEvents.containsKey(eventClass)) {
-				map = registeredEvents.get(eventClass);
+			if (registeredEvents.containsKey(eventClass.getName())) {
+				map = registeredEvents.get(eventClass.getName());
 			} else {
 				map = new TreeMap<EventPriority, Set<RegisteredEvent>>();
-				registeredEvents.put(eventClass, map);
+				registeredEvents.put(eventClass.getName(), map);
 			}
 			Set<RegisteredEvent> set = null;
 			if (map.containsKey(priority)) {
@@ -56,29 +60,26 @@ public class EventManager {
 				set = new HashSet<RegisteredEvent>();
 			}
 			set.add(registeredEvent);
-			map.put(priority, set);
-			System.out.println("Registered event: "
-					+ method.getDeclaringClass().getName() + "#"
-					+ method.getName() + "(" + eventClass.getName()
-					+ ")  Priority: " + priority.name());
-			System.out.println(registeredEvents);
+			map.put(priority, set);			
 		}
 
 	}
 
+	/**
+	 * Call an event
+	 * @param event
+	 */
 	public void callEvent(Event event) {
-		System.out.println("Calling event " + event.getClass().getSimpleName());
-		if (registeredEvents.containsKey(event.getClass())) {
-			System.out.println("seems to be registered");
-			TreeMap<EventPriority, Set<RegisteredEvent>> treeMap = registeredEvents
-					.get(event);
+		if (registeredEvents.containsKey(event.getClass().getName())) {
+			TreeMap<EventPriority, Set<RegisteredEvent>> treeMap = registeredEvents.get(event.getClass().getName());
+			System.out.println(treeMap.size());
 			for (EventPriority pr : treeMap.keySet()) {
-				System.out.println(pr);
-				for (RegisteredEvent registeredEvent : treeMap.get(pr)) {
+				Set<RegisteredEvent> set = treeMap.get(pr);
+
+				for (RegisteredEvent registeredEvent : set) {
 					try {
-						System.out.println("Invoking method");
 						registeredEvent.getMethod().invoke(
-								registeredEvent.getListener(), registeredEvent);
+								registeredEvent.getListener(), event);
 					} catch (Exception e) {
 						e.printStackTrace();
 					}

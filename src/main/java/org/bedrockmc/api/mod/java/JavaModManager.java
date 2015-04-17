@@ -17,6 +17,8 @@ import org.bedrockmc.api.BedrockMC;
 import org.bedrockmc.api.Client;
 import org.bedrockmc.api.ModManager;
 import org.bedrockmc.api.mod.InvalidModException;
+import org.bedrockmc.api.mod.MaximumVersion;
+import org.bedrockmc.api.mod.MinimumVersion;
 import org.bedrockmc.api.mod.Mod;
 import org.bedrockmc.api.mod.ModDescriptionFile;
 
@@ -56,7 +58,6 @@ public class JavaModManager implements ModManager {
 			ModDescriptionFile mdf = null;
 			try {
 				mdf = ModDescriptionFile.parseFromInputStream(stream);
-				System.out.println(mdf.getName());
 			} catch (InvalidModException ex) {
 				ex.printStackTrace();
 			} 
@@ -76,14 +77,23 @@ public class JavaModManager implements ModManager {
 					Class<?> clazz = loader.loadClass(className);
 					if(clazz.getName().equals(mdf.getMainClass())) {
 						found = true;
-						System.out.println("Loading main class " + clazz.getName());
+						if(clazz.isAnnotationPresent(MinimumVersion.class)) {
+							MinimumVersion min = clazz.getAnnotation(MinimumVersion.class);
+							if(min.minVersion().getVersionCode() > BedrockMC.getClient().getCurrentVersion().getVersionCode()) {
+								throw new InvalidModException("This mod requires Minecraft " + min.minVersion().getVersionString());
+							}
+						}
+						if(clazz.isAnnotationPresent(MaximumVersion.class)) {
+							MaximumVersion max = clazz.getAnnotation(MaximumVersion.class);
+							if(max.maxVersion().getVersionCode() < BedrockMC.getClient().getCurrentVersion().getVersionCode()) {
+								throw new InvalidModException("This mod requires Minecraft " + max.maxVersion().getVersionString());
+							}
+						}
 						Constructor<JavaMod> constr = (Constructor<JavaMod>) clazz.getConstructor(Client.class, ModDescriptionFile.class);
 						constr.setAccessible(true);
 						Mod mod = constr.newInstance(BedrockMC.getClient(), mdf);
 						this.loadedMods.put(mod.getName().toLowerCase(), mod);
 						mod.onLoad();
-					}else {
-						System.out.println("Loading class " + clazz.getName());
 					}
 				}
 			}
@@ -129,6 +139,16 @@ public class JavaModManager implements ModManager {
 			return mo.isEnabled();
 		}
 		return false;
+	}
+
+	@Override
+	public void reloadMod(Mod mod) {
+		if(isLoaded(mod.getName())) {
+			if(isEnabled(mod)) {
+				disableMod(mod);
+			}
+			loadedMods.remove(mod.getName());			
+		}
 	}
 
 }

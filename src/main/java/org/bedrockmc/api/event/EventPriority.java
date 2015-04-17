@@ -12,5 +12,9 @@ public enum EventPriority {
 	
 	HIGHEST,
 	
-	MONITOR
+	MONITOR;
+	
+	public String toString() {
+		return name();
+	}
 }

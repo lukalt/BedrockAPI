@@ -48,4 +48,6 @@ public interface Button extends Element {
 	 */
 	public String getLabel();
 	
+	public int getId();
+	
 }

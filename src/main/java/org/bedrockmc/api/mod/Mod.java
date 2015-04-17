@@ -47,4 +47,5 @@ public interface Mod {
 	 * @return overlay
 	 */
 	public List<Overlay> getOverlays();
+
 }

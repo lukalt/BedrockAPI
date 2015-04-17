@@ -1,1 +1,0 @@
-C:\Users\xxx\maven\bin\mvn

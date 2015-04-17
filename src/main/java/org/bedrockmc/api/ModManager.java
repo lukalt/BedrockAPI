@@ -21,4 +21,6 @@ public interface ModManager {
 	
 	public Collection<Mod> getLoadedMods();
 	
+	public void reloadMod(Mod mod);
+	
 }

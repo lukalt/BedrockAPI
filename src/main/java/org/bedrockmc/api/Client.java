@@ -2,6 +2,8 @@ package org.bedrockmc.api;
 
 import java.awt.image.BufferedImage;
 
+import javax.swing.text.JTextComponent.KeyBinding;
+
 import org.bedrockmc.api.chat.ChatMessage;
 import org.bedrockmc.api.entity.Player;
 import org.bedrockmc.api.event.EventManager;
@@ -131,6 +133,11 @@ public interface Client {
 	public String getMinecraftVersion();
 	
 	/**
+	 * Get the current minecraft version
+	 */
+	public MinecraftVersion getCurrentVersion();
+	
+	/**
 	 * Get the current bedrock version
 	 */
 	public int getBedrockVersionCode();
@@ -160,5 +167,10 @@ public interface Client {
 	 * @param message
 	 */
 	public void sendChatMessage(ChatMessage message);
+	
+	/**
+	 * Register a key binding
+	 */
+	public void registerKeyBinding(Mod mod, BindedKey key);
 
 }
