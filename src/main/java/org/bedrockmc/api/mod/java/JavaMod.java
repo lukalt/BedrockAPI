@@ -7,6 +7,7 @@ import java.util.List;
 import org.bedrockmc.api.Client;
 import org.bedrockmc.api.mod.Mod;
 import org.bedrockmc.api.mod.ModDescriptionFile;
+import org.bedrockmc.api.mod.ModIcon;
 import org.bedrockmc.api.overlay.Overlay;
 
 public abstract class JavaMod implements Mod {
@@ -16,13 +17,24 @@ public abstract class JavaMod implements Mod {
 	private ModDescriptionFile modDescriptionFile;
 	private File file;
 	private List<Overlay> overlays = new ArrayList<Overlay>();
-
+	private ModIcon icon;
+	
 	public JavaMod(Client client, ModDescriptionFile modDescriptionFile) {
 		super();
 		this.client = client;
 		this.modDescriptionFile = modDescriptionFile;
 	}
 
+
+	@Override
+	public ModIcon getIcon() {
+		return this.icon;
+	}
+
+	void setModIcon(ModIcon icon) {
+		this.icon = icon;
+	}
+	
 	@Override
 	public void onLoad() {
 		System.out.println("[" + getDescription().getName()

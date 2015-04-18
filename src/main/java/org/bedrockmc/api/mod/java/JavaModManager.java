@@ -1,5 +1,6 @@
 package org.bedrockmc.api.mod.java;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
@@ -13,6 +14,8 @@ import java.util.Map;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
+import javax.imageio.ImageIO;
+
 import org.bedrockmc.api.BedrockMC;
 import org.bedrockmc.api.Client;
 import org.bedrockmc.api.ModManager;
@@ -21,6 +24,7 @@ import org.bedrockmc.api.mod.MaximumVersion;
 import org.bedrockmc.api.mod.MinimumVersion;
 import org.bedrockmc.api.mod.Mod;
 import org.bedrockmc.api.mod.ModDescriptionFile;
+import org.bedrockmc.api.mod.ModIcon;
 
 public class JavaModManager implements ModManager {
 
@@ -61,6 +65,14 @@ public class JavaModManager implements ModManager {
 			} catch (InvalidModException ex) {
 				ex.printStackTrace();
 			} 
+			JarEntry icon = jarFile.getJarEntry("icon.png");
+			ModIcon modIcon = null;
+			if(icon == null) {
+				modIcon = BedrockMC.getClient().createModIcon(null);
+			}else {
+				BufferedImage img = ImageIO.read(jarFile.getInputStream(icon));
+				modIcon = BedrockMC.getClient().createModIcon(img);
+			}
 			URL url = file.toURL();
 			URLClassLoader loader = new URLClassLoader (new URL[] {url});
 			Enumeration<JarEntry> en = jarFile.entries();
@@ -91,7 +103,8 @@ public class JavaModManager implements ModManager {
 						}
 						Constructor<JavaMod> constr = (Constructor<JavaMod>) clazz.getConstructor(Client.class, ModDescriptionFile.class);
 						constr.setAccessible(true);
-						Mod mod = constr.newInstance(BedrockMC.getClient(), mdf);
+						JavaMod mod = constr.newInstance(BedrockMC.getClient(), mdf);
+						mod.setModIcon(modIcon);
 						this.loadedMods.put(mod.getName().toLowerCase(), mod);
 						mod.onLoad();
 					}
