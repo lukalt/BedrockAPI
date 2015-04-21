@@ -44,7 +44,7 @@ public class JavaModManager implements ModManager {
 
 	@SuppressWarnings({ "resource", "unchecked" })
 	@Override
-	public void loadMod(File file) {
+	public Mod loadMod(File file) {
 		if (!file.exists()) {
 			throw new InvalidModException("File does not exist.");
 		}
@@ -106,7 +106,9 @@ public class JavaModManager implements ModManager {
 						JavaMod mod = constr.newInstance(BedrockMC.getClient(), mdf);
 						mod.setModIcon(modIcon);
 						this.loadedMods.put(mod.getName().toLowerCase(), mod);
+						mod.setFile(file);
 						mod.onLoad();
+						return mod;
 					}
 				}
 			}
@@ -119,7 +121,7 @@ public class JavaModManager implements ModManager {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
+		return null;
 	}
 
 	@Override
@@ -156,12 +158,39 @@ public class JavaModManager implements ModManager {
 
 	@Override
 	public void reloadMod(Mod mod) {
-		if(isLoaded(mod.getName())) {
-			if(isEnabled(mod)) {
+		if(isLoaded(mod.getName()) && mod instanceof JavaMod ) {
+			
+			final File file = ((JavaMod)mod).getFile();
+			if(file == null) {
+				System.out.println(mod.getName() + " has no file associated.");
+				return;
+			}
+			unloadMod(mod);
+			if(file.exists()) {
+			loadMod(file);
+			}else {
+				System.out.println("Mod has been deleted.");
+			}
+		}
+	}
+
+	@Override
+	public void unloadMods() {
+		for(Mod mod : getLoadedMods()) {
+			if(mod.isEnabled()) {
 				disableMod(mod);
 			}
-			loadedMods.remove(mod.getName());			
 		}
+		loadedMods.clear();
+		
+	}
+
+	@Override
+	public void unloadMod(Mod mod) {
+		if(mod.isEnabled()) {
+			disableMod(mod);
+		}
+		loadedMods.remove(mod.getName().toLowerCase());
 	}
 
 }

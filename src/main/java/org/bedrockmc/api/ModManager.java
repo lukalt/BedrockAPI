@@ -13,7 +13,7 @@ public interface ModManager {
 	
 	public Mod getMod(String name);
 	
-	public void loadMod(File file);
+	public Mod loadMod(File file);
 	
 	public void enableMod(Mod mod);
 	
@@ -23,4 +23,7 @@ public interface ModManager {
 	
 	public void reloadMod(Mod mod);
 	
+	public void unloadMods();
+	
+	public void unloadMod(Mod mod);
 }

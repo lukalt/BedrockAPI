@@ -82,6 +82,10 @@ public abstract class JavaMod implements Mod {
 	protected void setEnabled(boolean flag) {
 		this.enabled = flag;
 	}
+	
+	void setFile(File file) {
+		this.file = file;
+	}
 
 	@Override
 	public List<Overlay> getOverlays() {
