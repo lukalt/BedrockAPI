@@ -1,8 +1,11 @@
 package org.bedrockmc.api.mod;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.List;
 
 import org.bedrockmc.api.Client;
+import org.bedrockmc.api.config.Config;
 import org.bedrockmc.api.overlay.Overlay;
 
 public interface Mod {
@@ -49,5 +52,12 @@ public interface Mod {
 	public List<Overlay> getOverlays();
 	
 	public ModIcon getIcon();
-
+	
+	public Config getConfig();
+	
+	public void saveConfig() throws IOException;
+	
+	public void reloadConfig() throws IOException;
+	
+	public File getDataFolder();
 }

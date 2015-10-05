@@ -108,4 +108,15 @@ public interface ModGuiScreen {
 	 */
 	public void openGui();
 	
+	public void drawString(int x, int y, String text);
+	
+	public void drawString(int x, int y, String text, int color);
+	
+	public void drawRectangle(int left, int top, int right, int bottom, int color);
+	
+	public void drawHorizontalLine(int left, int right, int y, int color);
+	
+	public void drawVerticalLine(int top, int bottom, int x, int color);
+	
+	
 }

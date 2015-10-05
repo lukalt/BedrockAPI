@@ -17,4 +17,8 @@ public interface TextField extends Element {
 	public void setFocused(boolean flag);
 	
 	public boolean isFocused();
+	
+	public int getWidth();
+	
+	public int getHeight();
 }

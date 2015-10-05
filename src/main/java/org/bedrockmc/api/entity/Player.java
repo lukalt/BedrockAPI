@@ -4,7 +4,7 @@ import java.util.UUID;
 
 import org.bedrockmc.api.Location;
 
-public interface Player extends Damageable, Entity{
+public interface Player extends Damageable, Entity, LivingEntity{
 
 	public Location getLocation();
 	

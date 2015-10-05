@@ -1,10 +1,13 @@
 package org.bedrockmc.api.mod.java;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.bedrockmc.api.Client;
+import org.bedrockmc.api.config.Config;
+import org.bedrockmc.api.config.PropertiesConfig;
 import org.bedrockmc.api.mod.Mod;
 import org.bedrockmc.api.mod.ModDescriptionFile;
 import org.bedrockmc.api.mod.ModIcon;
@@ -12,17 +15,39 @@ import org.bedrockmc.api.overlay.Overlay;
 
 public abstract class JavaMod implements Mod {
 
+
 	private boolean enabled = false;
 	private Client client;
 	private ModDescriptionFile modDescriptionFile;
 	private File file;
 	private List<Overlay> overlays = new ArrayList<Overlay>();
 	private ModIcon icon;
+	private File dataFolder;
+	private Config config;
 	
 	public JavaMod(Client client, ModDescriptionFile modDescriptionFile) {
 		super();
 		this.client = client;
 		this.modDescriptionFile = modDescriptionFile;
+		this.dataFolder = new File("bedrock-mods", this.modDescriptionFile.getName());
+		if(!this.dataFolder.exists()) {
+			this.dataFolder.mkdir();
+		}
+		File configFile = new File(this.dataFolder, "config.properties");
+		if(configFile.exists()) {
+			try {
+				this.config = PropertiesConfig.loadFromFile(configFile);
+			}catch(IOException ex) {
+				System.out.println("Could not load config of mod " + this.modDescriptionFile.getName());
+				ex.printStackTrace();
+			}
+		}else {
+			try {
+				configFile.createNewFile();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 
@@ -100,4 +125,27 @@ public abstract class JavaMod implements Mod {
 		overlays.remove(o);
 	}
 
+
+	@Override
+	public Config getConfig() {
+		return this.config;
+	}
+
+
+	@Override
+	public void saveConfig() throws IOException {
+		this.config.save(new File(this.dataFolder, "config.properties"));
+	}
+
+
+	@Override
+	public void reloadConfig() throws IOException {
+		throw new IllegalStateException("Not implemented yet.");
+	}
+
+
+	@Override
+	public File getDataFolder() {
+		return this.dataFolder;
+	}
 }

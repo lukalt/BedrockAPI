@@ -2,20 +2,17 @@ package org.bedrockmc.api.event;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
+import java.util.concurrent.ConcurrentHashMap;
 
 import org.bedrockmc.api.mod.Mod;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 public class EventManager {
 
-	private Map<String,TreeMap<EventPriority, Set<RegisteredEvent>>> registeredEvents = new HashMap<String, TreeMap<EventPriority, Set<RegisteredEvent>>>();
+	private Map<String,TreeMap<EventPriority, Set<RegisteredEvent>>> registeredEvents = new ConcurrentHashMap<String, TreeMap<EventPriority, Set<RegisteredEvent>>>();
 
 	/**
 	 * Register a new listener. All methods where the @EventHandler annotation is present will be registered.
@@ -72,10 +69,8 @@ public class EventManager {
 	public void callEvent(Event event) {
 		if (registeredEvents.containsKey(event.getClass().getName())) {
 			TreeMap<EventPriority, Set<RegisteredEvent>> treeMap = registeredEvents.get(event.getClass().getName());
-			System.out.println(treeMap.size());
 			for (EventPriority pr : treeMap.keySet()) {
 				Set<RegisteredEvent> set = treeMap.get(pr);
-
 				for (RegisteredEvent registeredEvent : set) {
 					try {
 						registeredEvent.getMethod().invoke(

@@ -2,8 +2,6 @@ package org.bedrockmc.api;
 
 import java.awt.image.BufferedImage;
 
-import javax.swing.text.JTextComponent.KeyBinding;
-
 import org.bedrockmc.api.chat.ChatMessage;
 import org.bedrockmc.api.entity.Player;
 import org.bedrockmc.api.event.EventManager;

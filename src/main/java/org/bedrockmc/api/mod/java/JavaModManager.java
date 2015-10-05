@@ -42,7 +42,7 @@ public class JavaModManager implements ModManager {
 		return loadedMods.get(name.toLowerCase());
 	}
 
-	@SuppressWarnings({ "resource", "unchecked" })
+	@SuppressWarnings({ "resource", "unchecked", "deprecation" })
 	@Override
 	public Mod loadMod(File file) {
 		if (!file.exists()) {
