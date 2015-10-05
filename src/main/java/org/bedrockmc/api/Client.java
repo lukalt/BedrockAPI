@@ -1,6 +1,7 @@
 package org.bedrockmc.api;
 
 import java.awt.image.BufferedImage;
+import java.io.IOException;
 
 import org.bedrockmc.api.chat.ChatMessage;
 import org.bedrockmc.api.entity.Player;
@@ -157,8 +158,9 @@ public interface Client {
 	 * @param mod
 	 * @param name
 	 * @return
+	 * @throws IOException 
 	 */
-	public Texture bindTexture(Mod mod, String name);
+	public Texture bindTexture(Mod mod, String name) throws IOException;
 	
 	/**
 	 * Send a chat message to the server
